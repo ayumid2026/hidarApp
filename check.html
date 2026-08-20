@@ -117,5 +117,50 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  // In check.html, replace the form submit handler with this:
+document.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const crop = document.querySelector('select[name="crop"]').value;
+    const grade = document.querySelector('select[name="grade"]').value;
+    const market = document.querySelector('select[name="market"]').value;
+
+    // You'll need to map crop/market names to IDs from your database
+    // For now, we'll just show a loading state
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').innerHTML = '<p>Loading...</p>';
+
+    try {
+        // Example API call - you'll need to build the proper query
+        const response = await fetch(`YOUR_API_URL/prices?crop_id=1&market_id=1&grade=${grade}`);
+        const data = await response.json();
+
+        if (data.length > 0) {
+            const price = data[0];
+            document.getElementById('results').innerHTML = `
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h4>${price.crop_name} - ${price.grade}</h4>
+                        <p class="text-muted mb-1">${price.market_name}</p>
+                    </div>
+                    <div class="text-end">
+                        <div class="h3 text-success mb-0">${price.price_etb}</div>
+                        <small class="text-muted">ብር/ቅንጥል</small>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span class="badge bg-secondary">Source: ${price.source}</span>
+                </div>
+                <div class="d-grid gap-2 mt-3">
+                    <button class="btn btn-outline-primary" onclick="alert('Alert setup coming soon!')">🔔 Set Alert</button>
+                </div>
+            `;
+        } else {
+            document.getElementById('results').innerHTML = '<p>No prices found for this selection.</p>';
+        }
+    } catch (error) {
+        document.getElementById('results').innerHTML = '<p class="text-danger">Error fetching prices. Please try again.</p>';
+    }
+});
 </body>
 </html>
