@@ -1,287 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#2E7D32">
-<meta name="apple-mobile-web-app-capable" content="yes">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Hidar - Market Price Intelligence</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2E7D32" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    * { box-sizing: border-box; }
+    body { background: #f5f5f5; font-family: system-ui, -apple-system, sans-serif; padding-bottom: 80px; margin: 0; }
     .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
-    .header h1 { font-size: 1.5rem; margin: 0; }
-    .card-price { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: none; cursor: pointer; transition: transform 0.2s; }
+    .header h1 { font-size: 1.5rem; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .header h1 small { font-size: 0.9rem; font-weight: normal; }
+    .card-price { background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: none; text-align: center; cursor: pointer; transition: transform 0.15s; }
     .card-price:hover { transform: scale(1.02); }
     .price-up { color: #2E7D32; font-weight: bold; }
     .price-down { color: #D32F2F; font-weight: bold; }
-    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; }
+    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; color: white; }
     .btn-primary:hover { background: #1B5E20; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
-    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .btn-outline-primary { border-color: #2E7D32; color: #2E7D32; border-radius: 10px; padding: 10px; }
+    .btn-outline-primary:hover { background: #2E7D32; color: white; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 6px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.7rem; text-align: center; flex: 1; padding: 4px 0; }
     .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
-    .bottom-nav span { display: block; font-size: 1.25rem; }
+    .bottom-nav span { display: block; font-size: 1.2rem; }
     .alert-banner { background: #FFF3E0; border-left: 4px solid #FFA000; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; }
     .premium-banner { background: linear-gradient(135deg, #FFA000, #FF6F00); color: white; padding: 14px; border-radius: 12px; text-align: center; margin: 16px 0; }
     .premium-banner a { color: white; font-weight: bold; text-decoration: underline; }
-    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #2E7D32; border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid #e0e0e0; border-top: 3px solid #2E7D32; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .location-badge { background: white; padding: 8px 12px; border-radius: 8px; display: flex; justify-content: space-between; margin-bottom: 14px; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="container d-flex justify-content-between align-items-center">
-      <h1>🌾 ሕዳር <small style="font-size:0.9rem;font-weight:normal;">Hidar</small></h1>
-      <div>
-        <button class="btn btn-sm btn-light me-1" id="langToggle">Am</button>
-        <button class="btn btn-sm btn-outline-light" id="profileBtn">👤</button>
-      </div>
+<div class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <h1>🌾 ሕዳር <small>Hidar</small></h1>
+    <div>
+      <button class="btn btn-sm btn-light me-1" id="langToggle">Am</button>
+      <button class="btn btn-sm btn-outline-light" id="profileBtn" onclick="window.location.href='profile.html'">👤</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="location-badge">
+    <span>📍 <span id="userLocation">Adama</span></span>
+    <small class="text-muted">Updated: <span id="lastUpdate">Loading...</span></small>
+  </div>
+
+  <div id="priceCards" class="row g-2 mb-3">
+    <div class="col-12 text-center py-4"><div class="loading-spinner"></div><p class="text-muted mt-2">Loading prices...</p></div>
+  </div>
+
+  <button class="btn btn-primary" onclick="window.location.href='check.html'">🔍 View All Prices →</button>
+
+  <div class="card p-3 mt-3">
+    <div class="d-flex justify-content-between">
+      <span>🔔 You have <strong id="alertCount">0</strong> active alerts</span>
+      <small class="text-danger" id="alertTriggered">No triggered alerts</small>
     </div>
   </div>
 
-  <div class="container mt-3">
-
-    <!-- Location -->
-    <div class="d-flex justify-content-between bg-white p-2 rounded-3 mb-3">
-      <span>📍 <span id="userLocation">Adama</span></span>
-      <small class="text-muted">Updated: <span id="lastUpdate">Today 09:00</span></small>
-    </div>
-
-    <!-- Quick Price Cards -->
-    <div id="priceCards" class="row g-2 mb-3">
-      <div class="col-12 text-center py-3">
-        <div class="loading-spinner"></div>
-        <p class="text-muted mt-2">Loading prices...</p>
-      </div>
-    </div>
-
-    <button class="btn btn-primary" onclick="window.location.href='check.html'">🔍 View All Prices →</button>
-
-    <!-- Alert Summary -->
-    <div class="card p-3 mt-3" id="alertSummary">
-      <div class="d-flex justify-content-between">
-        <span>🔔 You have <strong id="alertCount">0</strong> active alerts</span>
-        <small class="text-danger" id="alertTriggered">No triggered alerts</small>
-      </div>
-    </div>
-
-    <!-- Premium Upsell -->
-    <div class="premium-banner" id="premiumBanner">
-      🌟 Upgrade to <strong>Premium</strong> for 7-day forecasts & market recommendations<br>
-      <a href="insights.html">Learn more →</a>
-    </div>
-
-    <!-- Alert Banner (dynamic) -->
-    <div id="dynamicAlert" class="alert-banner mt-2" style="display:none;">
-      ⚠️ <span id="alertMessage"></span>
-    </div>
+  <div class="premium-banner">
+    🌟 Upgrade to <strong>Premium</strong> for 7-day forecasts & market recommendations<br />
+    <a href="insights.html">Learn more →</a>
   </div>
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav">
-    <a href="index.html" class="active"><span>🏠</span>Home</a>
-    <a href="check.html"><span>🔍</span>Check</a>
-    <a href="report.html"><span>📝</span>Report</a>
-    <a href="insights.html"><span>📊</span>Insights</a>
-    <a href="profile.html"><span>👤</span>Profile</a>
+  <div id="dynamicAlert" class="alert-banner mt-2" style="display:none;">
+    ⚠️ <span id="alertMessage"></span>
   </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // --- Configuration ---
-    const API_BASE = 'https://hidar.up.railway.app'; // Replace with your actual Railway URL
+<div class="bottom-nav">
+  <a href="index.html" class="active"><span>🏠</span>Home</a>
+  <a href="check.html"><span>🔍</span>Check</a>
+  <a href="report.html"><span>📝</span>Report</a>
+  <a href="insights.html"><span>📊</span>Insights</a>
+  <a href="profile.html"><span>👤</span>Profile</a>
+</div>
 
-    // --- Helper Functions ---
-    async function fetchAPI(endpoint, options = {}) {
-      const token = localStorage.getItem('access_token');
-      const headers = {
-        'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
-        ...options.headers
-      };
-      const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'API request failed');
-      }
-      return response.json();
-    }
+<script>
+  const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://hidar.up.railway.app';
 
-    function getPriceChange(todayPrice, yesterdayPrice) {
-      if (!yesterdayPrice) return { change: 0, direction: 'neutral', text: 'New' };
-      const change = ((todayPrice - yesterdayPrice) / yesterdayPrice) * 100;
-      return {
-        change: Math.round(change * 10) / 10,
-        direction: change > 0 ? 'up' : change < 0 ? 'down' : 'neutral',
-        text: change > 0 ? `▲ +${Math.round(change * 10) / 10}%` :
-              change < 0 ? `▼ ${Math.round(change * 10) / 10}%` : '—'
-      };
-    }
-
-    // --- Load Home Dashboard Data ---
-    async function loadDashboard() {
-      const priceCardsContainer = document.getElementById('priceCards');
-
-      try {
-        // Fetch today's prices for the 5 core crops
-        const today = new Date().toISOString().split('T')[0];
-        const prices = await fetchAPI(`/prices?effective_date=${today}&limit=10`);
-
-        if (prices.length === 0) {
-          priceCardsContainer.innerHTML = `
-            <div class="col-12 text-center py-3">
-              <p class="text-muted">No prices available today. Be the first to report!</p>
-              <a href="report.html" class="btn btn-sm btn-outline-primary">Report Price</a>
-            </div>
-          `;
-          return;
-        }
-
-        // Group prices by crop and get latest per crop
-        const cropMap = {};
-        prices.forEach(p => {
-          const key = p.crop_name;
-          if (!cropMap[key] || new Date(p.created_at) > new Date(cropMap[key].created_at)) {
-            cropMap[key] = p;
-          }
-        });
-
-        // Display top 3 crops as cards
-        const crops = Object.values(cropMap).slice(0, 3);
-        let cardsHTML = '';
-        crops.forEach((price, index) => {
-          const change = getPriceChange(price.price_etb, null); // No yesterday data yet
-          cardsHTML += `
-            <div class="col-4">
-              <div class="card-price text-center" onclick="window.location.href='check.html?crop=${price.crop_id}'">
-                <strong>${price.crop_name}</strong>
-                <div class="h5 mb-0">${price.price_etb.toLocaleString()}</div>
-                <small class="${change.direction === 'up' ? 'price-up' : change.direction === 'down' ? 'price-down' : 'text-muted'}">
-                  ${change.text}
-                </small>
-                <div style="font-size:0.65rem;color:#999;">ብር/ቅንጥል</div>
-              </div>
-            </div>
-          `;
-        });
-
-        priceCardsContainer.innerHTML = cardsHTML;
-
-        // Update last update time
-        document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
-
-        // Fetch alert count if user is logged in
-        const token = localStorage.getItem('access_token');
-        if (token) {
-          try {
-            const alerts = await fetchAPI('/alerts');
-            document.getElementById('alertCount').textContent = alerts.length;
-            const triggered = alerts.filter(a => a.last_triggered);
-            if (triggered.length > 0) {
-              document.getElementById('alertTriggered').textContent = `${triggered.length} price alert${triggered.length > 1 ? 's' : ''} triggered`;
-            }
-          } catch (e) {
-            // User not authenticated or no alerts
-          }
-        }
-
-        // Check for price drop alert
-        const alertBanner = document.getElementById('dynamicAlert');
-        const alertMessage = document.getElementById('alertMessage');
-        const priceDrops = prices.filter(p => {
-          // Check if price dropped more than 5% from yesterday (would need historical data)
-          return false; // Placeholder - implement with real historical comparison
-        });
-
-        if (priceDrops.length > 0) {
-          alertBanner.style.display = 'block';
-          alertMessage.textContent = `${priceDrops[0].crop_name} price dropped ${priceDrops[0].price_etb} ETB. Consider selling soon.`;
-        } else {
-          alertBanner.style.display = 'none';
-        }
-
-      } catch (error) {
-        console.error('Error loading dashboard:', error);
-        priceCardsContainer.innerHTML = `
-          <div class="col-12 text-center py-3 text-danger">
-            ⚠️ Failed to load prices. Please refresh or try again later.
-          </div>
-        `;
-      }
-    }
-
-    // --- Auto-detect Location ---
-    function detectLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            // Reverse geocode or match to nearest market
-            // For now, just show coordinates
-            document.getElementById('userLocation').textContent = 
-              `${position.coords.latitude.toFixed(2)}, ${position.coords.longitude.toFixed(2)}`;
-          },
-          () => {
-            // Fallback: use IP-based location or default
-            fetch('https://ipapi.co/json/')
-              .then(res => res.json())
-              .then(data => {
-                if (data.city) document.getElementById('userLocation').textContent = data.city;
-              })
-              .catch(() => {});
-          }
-        );
-      }
-    }
-
-    // --- Check Authentication Status ---
-    function checkAuth() {
-      const token = localStorage.getItem('access_token');
-      const profileBtn = document.getElementById('profileBtn');
-      if (token) {
-        profileBtn.innerHTML = '✅';
-        profileBtn.title = 'Logged in';
-      } else {
-        profileBtn.innerHTML = '👤';
-        profileBtn.title = 'Login / Register';
-        profileBtn.onclick = () => window.location.href = 'profile.html';
-      }
-    }
-
-    // --- Initialize ---
-    document.addEventListener('DOMContentLoaded', () => {
-      loadDashboard();
-      detectLocation();
-      checkAuth();
-
-      // Language toggle (simple implementation)
-      document.getElementById('langToggle').addEventListener('click', function() {
-        const current = this.textContent;
-        if (current === 'Am') {
-          this.textContent = 'Or';
-          // Switch to Oromiffa (placeholder)
-        } else if (current === 'Or') {
-          this.textContent = 'En';
-          // Switch to English
-        } else {
-          this.textContent = 'Am';
-          // Switch to Amharic
-        }
-      });
-    });
-
-    // Auto-refresh every 5 minutes
-    setInterval(loadDashboard, 300000);
-  </script>
-  <script>
-  // Register Service Worker for PWA
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('SW registered:', reg))
-      .catch(err => console.log('SW registration failed:', err));
+  async function fetchAPI(endpoint, options = {}) {
+    const token = localStorage.getItem('access_token');
+    const headers = { 'Content-Type': 'application/json', ...(token && { 'Authorization': `Bearer ${token}` }), ...options.headers };
+    const res = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.detail || 'Request failed'); }
+    return res.json();
   }
+
+  async function loadDashboard() {
+    const container = document.getElementById('priceCards');
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const prices = await fetchAPI(`/prices?effective_date=${today}&limit=10`);
+      if (!prices.length) {
+        container.innerHTML = `<div class="col-12 text-center py-3 text-muted">No prices today. <a href="report.html">Report one!</a></div>`;
+        return;
+      }
+      const cropMap = {};
+      prices.forEach(p => { if (!cropMap[p.crop_name] || new Date(p.created_at) > new Date(cropMap[p.crop_name].created_at)) cropMap[p.crop_name] = p; });
+      const crops = Object.values(cropMap).slice(0, 3);
+      container.innerHTML = crops.map((p, i) => `
+        <div class="col-4">
+          <div class="card-price" onclick="window.location.href='check.html?crop=${p.crop_id}'">
+            <strong>${p.crop_name}</strong>
+            <div class="h5 mb-0">${p.price_etb.toLocaleString()}</div>
+            <small class="text-muted">ብር/ቅንጥል</small>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        try { const alerts = await fetchAPI('/alerts'); document.getElementById('alertCount').textContent = alerts.length; } catch(e) {}
+      }
+    } catch(e) {
+      container.innerHTML = `<div class="col-12 text-center text-danger">⚠️ Failed to load prices. Refresh.</div>`;
+    }
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      p => document.getElementById('userLocation').textContent = `${p.coords.latitude.toFixed(2)}, ${p.coords.longitude.toFixed(2)}`,
+      () => {}
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', loadDashboard);
+  setInterval(loadDashboard, 120000);
 </script>
 </body>
 </html>
