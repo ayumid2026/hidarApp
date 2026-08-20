@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidar - Market Price Intelligence</title>
+  <!-- Bootstrap CSS (lightweight) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
+    .header h1 { font-size: 1.5rem; margin: 0; }
+    .card-price { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: none; }
+    .price-up { color: #2E7D32; font-weight: bold; }
+    .price-down { color: #D32F2F; font-weight: bold; }
+    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; }
+    .btn-primary:hover { background: #1B5E20; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
+    .bottom-nav span { display: block; font-size: 1.25rem; }
+    .alert-banner { background: #FFF3E0; border-left: 4px solid #FFA000; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; }
+    .premium-banner { background: linear-gradient(135deg, #FFA000, #FF6F00); color: white; padding: 14px; border-radius: 12px; text-align: center; margin: 16px 0; }
+    .premium-banner a { color: white; font-weight: bold; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <h1>🌾 ሕዳር <small style="font-size:0.9rem;font-weight:normal;">Hidar</small></h1>
+      <div>
+        <button class="btn btn-sm btn-light me-1">Am</button>
+        <button class="btn btn-sm btn-outline-light">👤</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+
+    <!-- Location -->
+    <div class="d-flex justify-content-between bg-white p-2 rounded-3 mb-3">
+      <span>📍 Adama</span>
+      <small class="text-muted">Updated: Today 09:00</small>
+    </div>
+
+    <!-- Quick Price Cards -->
+    <div class="row g-2 mb-3">
+      <div class="col-4">
+        <div class="card-price text-center">
+          <strong>Teff</strong>
+          <div class="h5 mb-0">11,750</div>
+          <small class="price-up">▲ +3%</small>
+          <div style="font-size:0.65rem;color:#999;">ብር/ቅንጥል</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-price text-center">
+          <strong>Wheat</strong>
+          <div class="h5 mb-0">8,250</div>
+          <small class="price-down">▼ -1%</small>
+          <div style="font-size:0.65rem;color:#999;">ብር/ቅንጥል</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card-price text-center">
+          <strong>Maize</strong>
+          <div class="h5 mb-0">5,000</div>
+          <small class="price-up">▲ +2%</small>
+          <div style="font-size:0.65rem;color:#999;">ብር/ቅንጥል</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="alert('Price Check page coming soon!')">🔍 View All Prices →</button>
+
+    <!-- Alert Summary -->
+    <div class="card p-3 mt-3">
+      <div class="d-flex justify-content-between">
+        <span>🔔 You have <strong>3</strong> active alerts</span>
+        <small class="text-danger">1 price dropped</small>
+      </div>
+    </div>
+
+    <!-- Premium Upsell -->
+    <div class="premium-banner">
+      🌟 Upgrade to <strong>Premium</strong> for 7-day forecasts & market recommendations<br>
+      <a href="#" onclick="alert('Premium upgrade coming soon!')">Learn more →</a>
+    </div>
+
+    <!-- Sample Alert Banner -->
+    <div class="alert-banner mt-2">
+      ⚠️ <strong>Alert:</strong> Teff price in Adama dropped 5% in 2 days. Consider selling soon.
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="#" class="active"><span>🏠</span>Home</a>
+    <a href="#" onclick="alert('Price Check page coming soon!')"><span>🔍</span>Check</a>
+    <a href="#" onclick="alert('Report page coming soon!')"><span>📝</span>Report</a>
+    <a href="#" onclick="alert('Insights page coming soon!')"><span>📊</span>Insights</a>
+    <a href="#" onclick="alert('Profile page coming soon!')"><span>👤</span>Profile</a>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
