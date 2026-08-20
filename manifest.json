@@ -1,0 +1,31 @@
+{
+  "name": "Hidar - Market Price Intelligence",
+  "short_name": "Hidar",
+  "description": "Know your crop's worth before you leave the farm.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2E7D32",
+  "theme_color": "#2E7D32",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Check Prices",
+      "url": "/check.html"
+    },
+    {
+      "name": "Report Price",
+      "url": "/report.html"
+    }
+  ]
+}
