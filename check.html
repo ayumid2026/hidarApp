@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidar - Check Prices</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
+    .header h1 { font-size: 1.3rem; margin: 0; }
+    .back-link { color: white; text-decoration: none; font-size: 1.5rem; }
+    .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #ddd; }
+    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; }
+    .btn-primary:hover { background: #1B5E20; }
+    .result-card { background: white; border-radius: 12px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .chart-placeholder { background: #f0f0f0; height: 120px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.9rem; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
+    .bottom-nav span { display: block; font-size: 1.25rem; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="container d-flex align-items-center">
+      <a href="index.html" class="back-link me-2">←</a>
+      <h1>🔍 Check Price</h1>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+
+    <form>
+      <div class="mb-3">
+        <label class="form-label">Crop</label>
+        <select class="form-select" required>
+          <option value="">Select crop...</option>
+          <option>Teff</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Coffee</option>
+          <option>Sesame</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Grade</label>
+        <select class="form-select" required>
+          <option value="">Select grade...</option>
+          <option>Grade 1</option>
+          <option>Grade 2</option>
+          <option>Mixed</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Market</label>
+        <select class="form-select" required>
+          <option value="">Select market...</option>
+          <option>Adama</option>
+          <option>Addis Ababa</option>
+          <option>Bahir Dar</option>
+          <option>Shashemene</option>
+          <option>Jimma</option>
+          <option>Hawassa</option>
+          <option>Mekele</option>
+          <option>Dire Dawa</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Get Price</button>
+    </form>
+
+    <!-- Sample Results (hidden by default, shown after submit) -->
+    <div class="result-card" id="results" style="display:none;">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h4>Teff - Grade 1</h4>
+          <p class="text-muted mb-1">Adama Market</p>
+        </div>
+        <div class="text-end">
+          <div class="h3 text-success mb-0">11,750</div>
+          <small class="text-muted">ብር/ቅንጥል</small>
+        </div>
+      </div>
+      <div class="mt-2">
+        <span class="badge bg-success">▲ +3% today</span>
+        <span class="badge bg-secondary">7-day avg: 11,400</span>
+      </div>
+      <div class="chart-placeholder mt-3">📈 7-day price trend (Chart.js coming soon)</div>
+      <div class="d-grid gap-2 mt-3">
+        <button class="btn btn-outline-primary" onclick="alert('Alert setup coming soon!')">🔔 Set Alert</button>
+        <button class="btn btn-outline-secondary" onclick="alert('Report form coming soon!')">📝 Report Price</button>
+      </div>
+    </div>
+
+    <!-- Show results for demo -->
+    <script>
+      document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+      });
+    </script>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="check.html" class="active"><span>🔍</span>Check</a>
+    <a href="report.html"><span>📝</span>Report</a>
+    <a href="insights.html"><span>📊</span>Insights</a>
+    <a href="profile.html"><span>👤</span>Profile</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
