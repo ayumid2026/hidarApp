@@ -25,7 +25,6 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    # Relationships
     alerts = relationship("Alert", back_populates="user")
     reports = relationship("PriceReport", back_populates="reporter")
 
@@ -51,16 +50,15 @@ class Price(Base):
     id = Column(Integer, primary_key=True, index=True)
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
     market_id = Column(Integer, ForeignKey("markets.id"), nullable=False)
-    grade = Column(String(20), nullable=False)  # Grade 1, Grade 2, Mixed
+    grade = Column(String(20), nullable=False)
     price_etb = Column(Float, nullable=False)
-    price_type = Column(String(20), default="wholesale")  # farmgate, wholesale, retail
-    source = Column(String(50), default="crowdsourced")  # crowdsourced, exchange, govt
+    price_type = Column(String(20), default="wholesale")
+    source = Column(String(50), default="crowdsourced")
     reported_by = Column(Integer, ForeignKey("users.id"), nullable=True)
     verified = Column(Boolean, default=False)
     effective_date = Column(Date, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
     crop = relationship("Crop")
     market = relationship("Market")
     reporter = relationship("User", foreign_keys=[reported_by])
@@ -71,16 +69,15 @@ class Alert(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     crop_id = Column(Integer, ForeignKey("crops.id"), nullable=False)
-    market_id = Column(Integer, ForeignKey("markets.id"), nullable=True)  # NULL = all markets
+    market_id = Column(Integer, ForeignKey("markets.id"), nullable=True)
     grade = Column(String(20), nullable=False)
-    condition = Column(String(10), nullable=False)  # 'above' or 'below'
+    condition = Column(String(10), nullable=False)
     threshold = Column(Float, nullable=False)
-    delivery_method = Column(Text, nullable=False)  # JSON: {"sms": true, "push": true}
+    delivery_method = Column(Text, nullable=False)
     active = Column(Boolean, default=True)
     last_triggered = Column(DateTime, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
     user = relationship("User", back_populates="alerts")
     crop = relationship("Crop")
     market = relationship("Market")
@@ -99,10 +96,9 @@ class PriceReport(Base):
     notes = Column(Text, nullable=True)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    status = Column(String(20), default="pending")  # pending, verified, rejected
+    status = Column(String(20), default="pending")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    # Relationships
     reporter = relationship("User", back_populates="reports")
     crop = relationship("Crop")
     market = relationship("Market")
