@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidar - Report Price</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
+    .header h1 { font-size: 1.3rem; margin: 0; }
+    .back-link { color: white; text-decoration: none; font-size: 1.5rem; }
+    .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #ddd; }
+    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; }
+    .btn-primary:hover { background: #1B5E20; }
+    .reward-box { background: #FFF8E1; border: 1px dashed #FFA000; border-radius: 10px; padding: 12px; text-align: center; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
+    .bottom-nav span { display: block; font-size: 1.25rem; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="container d-flex align-items-center">
+      <a href="index.html" class="back-link me-2">←</a>
+      <h1>📝 Report Price</h1>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+
+    <form id="reportForm">
+      <div class="mb-3">
+        <label class="form-label">Crop *</label>
+        <select class="form-select" required>
+          <option value="">Select crop...</option>
+          <option>Teff</option>
+          <option>Wheat</option>
+          <option>Maize</option>
+          <option>Coffee</option>
+          <option>Sesame</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Grade *</label>
+        <select class="form-select" required>
+          <option value="">Select grade...</option>
+          <option>Grade 1</option>
+          <option>Grade 2</option>
+          <option>Mixed</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Market *</label>
+        <select class="form-select" required>
+          <option value="">Select market...</option>
+          <option>Adama</option>
+          <option>Addis Ababa</option>
+          <option>Bahir Dar</option>
+          <option>Shashemene</option>
+          <option>Jimma</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Price (ETB per quintal) *</label>
+        <input type="number" class="form-control" placeholder="e.g., 11750" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Price Type</label>
+        <div class="d-flex gap-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priceType" id="farmgate" checked>
+            <label class="form-check-label" for="farmgate">Farmgate</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priceType" id="wholesale">
+            <label class="form-check-label" for="wholesale">Wholesale</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="priceType" id="retail">
+            <label class="form-check-label" for="retail">Retail</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Photo (optional)</label>
+        <input type="file" class="form-control" accept="image/*">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Notes (optional)</label>
+        <textarea class="form-control" rows="2" placeholder="e.g., Bulk discount, quality issues"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit Report</button>
+    </form>
+
+    <div class="reward-box mt-3">
+      ⭐ You earn <strong>10 points</strong> per verified report<br>
+      <small>100 points = 1 week of Premium access</small>
+    </div>
+
+    <div class="mt-3">
+      <h6>Your Recent Reports</h6>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Teff - Adama <span class="badge bg-success">Verified</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Maize - Shashemene <span class="badge bg-warning text-dark">Pending</span>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      document.getElementById('reportForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('✅ Thank you! Your price report has been submitted for verification.');
+        this.reset();
+      });
+    </script>
+
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="check.html"><span>🔍</span>Check</a>
+    <a href="report.html" class="active"><span>📝</span>Report</a>
+    <a href="insights.html"><span>📊</span>Insights</a>
+    <a href="profile.html"><span>👤</span>Profile</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
