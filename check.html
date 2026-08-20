@@ -3,335 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hidar - Check Prices</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Hidar - Check Price</title>
+  <link rel="manifest" href="manifest.json" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    body { background: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
     .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
-    .header h1 { font-size: 1.3rem; margin: 0; }
-    .back-link { color: white; text-decoration: none; font-size: 1.5rem; }
+    .header h1 { font-size: 1.3rem; margin: 0; display: flex; align-items: center; gap: 10px; }
+    .header a { color: white; text-decoration: none; font-size: 1.5rem; }
     .form-control, .form-select { border-radius: 10px; padding: 12px; border: 1px solid #ddd; }
-    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; }
-    .btn-primary:hover { background: #1B5E20; }
+    .btn-primary { background: #2E7D32; border: none; border-radius: 10px; padding: 12px; font-weight: bold; width: 100%; color: white; }
     .btn-outline-primary { border-color: #2E7D32; color: #2E7D32; border-radius: 10px; padding: 10px; }
     .btn-outline-primary:hover { background: #2E7D32; color: white; }
     .result-card { background: white; border-radius: 12px; padding: 16px; margin-top: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .chart-container { background: #f8f9fa; border-radius: 8px; padding: 12px; margin-top: 12px; height: 150px; display: flex; align-items: flex-end; justify-content: space-around; }
-    .chart-bar { flex: 1; margin: 0 4px; background: #2E7D32; border-radius: 4px 4px 0 0; min-height: 10px; transition: height 0.3s; }
-    .chart-bar-label { text-align: center; font-size: 0.6rem; color: #999; margin-top: 4px; }
-    .price-up { color: #2E7D32; font-weight: bold; }
-    .price-down { color: #D32F2F; font-weight: bold; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
-    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 6px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.7rem; text-align: center; flex: 1; padding: 4px 0; }
     .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
-    .bottom-nav span { display: block; font-size: 1.25rem; }
-    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #2E7D32; border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .bottom-nav span { display: block; font-size: 1.2rem; }
+    .chart-bar { flex: 1; margin: 0 3px; background: #2E7D32; border-radius: 4px 4px 0 0; min-height: 8px; transition: height 0.3s; }
+    .chart-bar-label { text-align: center; font-size: 0.55rem; color: #999; margin-top: 4px; }
+    .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #e0e0e0; border-top: 3px solid #2E7D32; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="container d-flex align-items-center">
-      <a href="index.html" class="back-link me-2">←</a>
-      <h1>🔍 Check Price</h1>
+<div class="header">
+  <div class="container d-flex align-items-center">
+    <a href="index.html">←</a>
+    <h1>🔍 Check Price</h1>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <form id="priceForm">
+    <div class="mb-3">
+      <label class="form-label">Crop *</label>
+      <select class="form-select" id="cropSelect" required>
+        <option value="">Select crop...</option>
+        <option value="1">Teff</option><option value="2">Wheat</option><option value="3">Maize</option>
+        <option value="4">Coffee</option><option value="5">Sesame</option>
+      </select>
     </div>
-  </div>
-
-  <div class="container mt-3">
-
-    <form id="priceForm">
-      <div class="mb-3">
-        <label class="form-label">Crop *</label>
-        <select class="form-select" id="cropSelect" required>
-          <option value="">Select crop...</option>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Grade</label>
-        <select class="form-select" id="gradeSelect" required>
-          <option value="Grade 1">Grade 1</option>
-          <option value="Grade 2">Grade 2</option>
-          <option value="Mixed">Mixed</option>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Market *</label>
-        <select class="form-select" id="marketSelect" required>
-          <option value="">Select market...</option>
-        </select>
-      </div>
-
-      <button type="submit" class="btn btn-primary" id="searchBtn">
-        <span id="searchText">Get Price</span>
-        <span id="searchSpinner" class="loading-spinner" style="display:none;"></span>
-      </button>
-    </form>
-
-    <!-- Results Area -->
-    <div id="resultsContainer">
-      <div id="results" style="display:none;"></div>
+    <div class="mb-3">
+      <label class="form-label">Grade</label>
+      <select class="form-select" id="gradeSelect" required>
+        <option value="Grade 1">Grade 1</option><option value="Grade 2">Grade 2</option><option value="Mixed">Mixed</option>
+      </select>
     </div>
-  </div>
+    <div class="mb-3">
+      <label class="form-label">Market *</label>
+      <select class="form-select" id="marketSelect" required>
+        <option value="">Select market...</option>
+        <option value="1">Adama</option><option value="2">Addis Ababa</option><option value="3">Bahir Dar</option>
+        <option value="4">Mekele</option><option value="5">Dire Dawa</option><option value="6">Jimma</option>
+        <option value="7">Shashemene</option><option value="8">Hawassa</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" id="searchBtn">
+      <span id="searchText">Get Price</span>
+      <span id="searchSpinner" class="loading-spinner" style="display:none;"></span>
+    </button>
+  </form>
+  <div id="results" style="display:none;"></div>
+</div>
 
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav">
-    <a href="index.html"><span>🏠</span>Home</a>
-    <a href="check.html" class="active"><span>🔍</span>Check</a>
-    <a href="report.html"><span>📝</span>Report</a>
-    <a href="insights.html"><span>📊</span>Insights</a>
-    <a href="profile.html"><span>👤</span>Profile</a>
-  </div>
+<div class="bottom-nav">
+  <a href="index.html"><span>🏠</span>Home</a>
+  <a href="check.html" class="active"><span>🔍</span>Check</a>
+  <a href="report.html"><span>📝</span>Report</a>
+  <a href="insights.html"><span>📊</span>Insights</a>
+  <a href="profile.html"><span>👤</span>Profile</a>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // --- Configuration ---
-    const API_BASE = 'https://hidar.up.railway.app'; // Replace with your actual Railway URL
+<script>
+  const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://hidar.up.railway.app';
 
-    // --- Helper Functions ---
-    async function fetchAPI(endpoint, options = {}) {
-      const token = localStorage.getItem('access_token');
-      const headers = {
-        'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
-        ...options.headers
-      };
-      const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'API request failed');
-      }
-      return response.json();
-    }
+  async function fetchAPI(endpoint, options = {}) {
+    const token = localStorage.getItem('access_token');
+    const headers = { 'Content-Type': 'application/json', ...(token && { 'Authorization': `Bearer ${token}` }), ...options.headers };
+    const res = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.detail || 'Request failed'); }
+    return res.json();
+  }
 
-    // --- Load Crops and Markets ---
-    async function loadCropsAndMarkets() {
-      try {
-        // In a real app, you'd have endpoints for crops and markets
-        // For now, we'll use hardcoded lists since they're seeded
-        const crops = [
-          { id: 1, name: 'Teff' },
-          { id: 2, name: 'Wheat' },
-          { id: 3, name: 'Maize' },
-          { id: 4, name: 'Coffee' },
-          { id: 5, name: 'Sesame' }
-        ];
-        const markets = [
-          { id: 1, name: 'Adama' },
-          { id: 2, name: 'Addis Ababa' },
-          { id: 3, name: 'Bahir Dar' },
-          { id: 4, name: 'Mekele' },
-          { id: 5, name: 'Dire Dawa' },
-          { id: 6, name: 'Jimma' },
-          { id: 7, name: 'Shashemene' },
-          { id: 8, name: 'Hawassa' },
-          { id: 9, name: 'Gondar' },
-          { id: 10, name: 'Dessie' }
-        ];
+  document.getElementById('priceForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const crop = document.getElementById('cropSelect').value;
+    const grade = document.getElementById('gradeSelect').value;
+    const market = document.getElementById('marketSelect').value;
+    if (!crop || !market) { alert('Please select crop and market.'); return; }
 
-        const cropSelect = document.getElementById('cropSelect');
-        crops.forEach(crop => {
-          const option = document.createElement('option');
-          option.value = crop.id;
-          option.textContent = crop.name;
-          cropSelect.appendChild(option);
-        });
+    const results = document.getElementById('results');
+    const btn = document.getElementById('searchBtn');
+    const text = document.getElementById('searchText');
+    const spinner = document.getElementById('searchSpinner');
 
-        const marketSelect = document.getElementById('marketSelect');
-        markets.forEach(market => {
-          const option = document.createElement('option');
-          option.value = market.id;
-          option.textContent = market.name;
-          marketSelect.appendChild(option);
-        });
+    text.textContent = 'Searching...'; spinner.style.display = 'inline-block'; btn.disabled = true;
+    results.style.display = 'none';
 
-        // Auto-select from URL params
-        const params = new URLSearchParams(window.location.search);
-        const cropParam = params.get('crop');
-        if (cropParam) {
-          cropSelect.value = cropParam;
-        }
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const prices = await fetchAPI(`/prices?crop_id=${crop}&market_id=${market}&grade=${encodeURIComponent(grade)}&effective_date=${today}&limit=10`);
+      const historical = await fetchAPI(`/prices?crop_id=${crop}&market_id=${market}&grade=${encodeURIComponent(grade)}&limit=7`);
 
-      } catch (error) {
-        console.error('Error loading crops/markets:', error);
-      }
-    }
-
-    // --- Search Prices ---
-    document.getElementById('priceForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const cropId = document.getElementById('cropSelect').value;
-      const grade = document.getElementById('gradeSelect').value;
-      const marketId = document.getElementById('marketSelect').value;
-
-      if (!cropId || !marketId) {
-        alert('Please select a crop and market.');
+      if (!prices.length) {
+        results.innerHTML = `<div class="result-card text-center text-muted py-4">No prices found. <a href="report.html">Report one!</a></div>`;
+        results.style.display = 'block';
         return;
       }
+      const p = prices[0];
+      const chartData = historical.slice(0, 7).reverse();
+      const max = Math.max(...chartData.map(x => x.price_etb), p.price_etb);
+      const min = Math.min(...chartData.map(x => x.price_etb), p.price_etb);
+      const range = max - min || 1;
 
-      const searchBtn = document.getElementById('searchBtn');
-      const searchText = document.getElementById('searchText');
-      const searchSpinner = document.getElementById('searchSpinner');
-      const resultsDiv = document.getElementById('results');
-
-      // Show loading state
-      searchText.textContent = 'Searching...';
-      searchSpinner.style.display = 'inline-block';
-      searchBtn.disabled = true;
-      resultsDiv.style.display = 'none';
-
-      try {
-        // Build query parameters
-        const today = new Date().toISOString().split('T')[0];
-        let url = `/prices?crop_id=${cropId}&market_id=${marketId}&grade=${encodeURIComponent(grade)}&effective_date=${today}`;
-
-        // Also get historical data for the chart (last 7 days)
-        const historicalUrl = `/prices?crop_id=${cropId}&market_id=${marketId}&grade=${encodeURIComponent(grade)}&limit=7`;
-
-        // Fetch current price
-        const prices = await fetchAPI(url);
-
-        // Fetch historical prices
-        const historicalPrices = await fetchAPI(historicalUrl);
-
-        if (prices.length === 0) {
-          resultsDiv.innerHTML = `
-            <div class="result-card text-center text-muted py-4">
-              <p>No prices found for this selection.</p>
-              <a href="report.html" class="btn btn-sm btn-outline-primary">Report this price</a>
-            </div>
-          `;
-          resultsDiv.style.display = 'block';
-          return;
-        }
-
-        const price = prices[0]; // Latest price
-
-        // Build chart data from historical prices
-        const chartData = historicalPrices.slice(0, 7).reverse();
-        const maxPrice = Math.max(...chartData.map(p => p.price_etb), price.price_etb);
-        const minPrice = Math.min(...chartData.map(p => p.price_etb), price.price_etb);
-        const range = maxPrice - minPrice || 1;
-
-        // Build chart bars
-        let chartBars = '';
-        chartData.forEach((p, index) => {
-          const height = ((p.price_etb - minPrice) / range) * 80 + 20;
-          chartBars += `
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;">
-              <div class="chart-bar" style="height:${height}px;background:${p.id === price.id ? '#FF6F00' : '#2E7D32'};"></div>
-              <div class="chart-bar-label">${new Date(p.effective_date).getDate()}</div>
-            </div>
-          `;
-        });
-
-        // Build comparison with other markets
-        let compareHTML = '';
-        // In a real app, fetch prices from other markets for the same crop/grade
-        // For now, show a placeholder
-
-        resultsDiv.innerHTML = `
-          <div class="result-card">
-            <div class="d-flex justify-content-between align-items-start">
-              <div>
-                <h4>${price.crop_name} - ${price.grade}</h4>
-                <p class="text-muted mb-1">${price.market_name} Market</p>
-                <span class="badge bg-secondary">${price.source}</span>
-                ${price.verified ? '<span class="badge bg-success">Verified</span>' : '<span class="badge bg-warning">Pending</span>'}
-              </div>
-              <div class="text-end">
-                <div class="h3 text-success mb-0">${price.price_etb.toLocaleString()}</div>
-                <small class="text-muted">ብር/ቅንጥል</small>
-                <div><small class="text-muted">${new Date(price.effective_date).toLocaleDateString()}</small></div>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <label class="form-label small text-muted">7-Day Price Trend</label>
-              <div class="chart-container">
-                ${chartBars}
-              </div>
-            </div>
-
-            <div class="mt-3 row g-2">
-              <div class="col-6">
-                <button class="btn btn-outline-primary w-100" onclick="setAlert(${price.crop_id}, ${price.market_id}, '${price.grade}')">
-                  🔔 Set Alert
-                </button>
-              </div>
-              <div class="col-6">
-                <button class="btn btn-outline-secondary w-100" onclick="window.location.href='report.html?crop=${price.crop_id}&market=${price.market_id}&grade=${price.grade}'">
-                  📝 Report Price
-                </button>
-              </div>
-            </div>
-
-            <div class="mt-3 pt-2 border-top">
-              <small class="text-muted">
-                Source: ${price.source} • Reported: ${new Date(price.created_at).toLocaleString()}
-              </small>
+      results.innerHTML = `
+        <div class="result-card">
+          <div class="d-flex justify-content-between align-items-start">
+            <div><h4>${p.crop_name} - ${p.grade}</h4><p class="text-muted mb-1">${p.market_name}</p>
+            <span class="badge bg-secondary">${p.source}</span> ${p.verified ? '<span class="badge bg-success">Verified</span>' : ''}</div>
+            <div class="text-end"><div class="h3 text-success mb-0">${p.price_etb.toLocaleString()}</div><small>ብር/ቅንጥል</small></div>
+          </div>
+          <div class="mt-3">
+            <small class="text-muted">7-Day Trend</small>
+            <div style="display:flex;align-items:flex-end;height:80px;gap:4px;padding-top:8px;">
+              ${chartData.map(d => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;"><div class="chart-bar" style="height:${((d.price_etb - min) / range) * 60 + 10}px;background:${d.id === p.id ? '#FF6F00' : '#2E7D32'};"></div><div class="chart-bar-label">${new Date(d.effective_date).getDate()}</div></div>`).join('')}
             </div>
           </div>
-        `;
-
-        resultsDiv.style.display = 'block';
-
-        // Scroll to results
-        resultsDiv.scrollIntoView({ behavior: 'smooth' });
-
-      } catch (error) {
-        console.error('Error searching prices:', error);
-        resultsDiv.innerHTML = `
-          <div class="result-card text-center text-danger py-4">
-            ⚠️ Failed to fetch prices. Please try again.
-            <br><small>${error.message}</small>
+          <div class="mt-3 row g-2">
+            <div class="col-6"><button class="btn btn-outline-primary w-100" onclick="setAlert(${p.crop_id}, ${p.market_id}, '${p.grade}')">🔔 Set Alert</button></div>
+            <div class="col-6"><button class="btn btn-outline-secondary w-100" onclick="window.location.href='report.html?crop=${p.crop_id}&market=${p.market_id}&grade=${p.grade}'">📝 Report</button></div>
           </div>
-        `;
-        resultsDiv.style.display = 'block';
-      } finally {
-        // Reset button state
-        searchText.textContent = 'Get Price';
-        searchSpinner.style.display = 'none';
-        searchBtn.disabled = false;
-      }
-    });
-
-    // --- Set Alert Function ---
-    function setAlert(cropId, marketId, grade) {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        if (confirm('Please login to set alerts. Go to login page?')) {
-          window.location.href = 'profile.html';
-        }
-        return;
-      }
-      // In a real app, show a modal to set threshold
-      const threshold = prompt('Enter price threshold (ETB per quintal):');
-      if (threshold && !isNaN(threshold)) {
-        // Call API to create alert
-        fetchAPI('/alerts', {
-          method: 'POST',
-          body: JSON.stringify({
-            crop_id: parseInt(cropId),
-            market_id: parseInt(marketId),
-            grade: grade,
-            condition: 'below',
-            threshold: parseFloat(threshold),
-            delivery_method: { sms: true, push: false }
-          })
-        }).then(() => {
-          alert('✅ Alert created successfully!');
-        }).catch(err => {
-          alert('Failed to create alert: ' + err.message);
-        });
-      }
+        </div>
+      `;
+      results.style.display = 'block';
+      results.scrollIntoView({ behavior: 'smooth' });
+    } catch(e) {
+      results.innerHTML = `<div class="result-card text-danger">⚠️ Error: ${e.message}</div>`;
+      results.style.display = 'block';
+    } finally {
+      text.textContent = 'Get Price'; spinner.style.display = 'none'; btn.disabled = false;
     }
+  });
 
-    // --- Load data on page load ---
-    document.addEventListener('DOMContentLoaded', loadCropsAndMarkets);
-  </script>
+  window.setAlert = async function(cropId, marketId, grade) {
+    const token = localStorage.getItem('access_token');
+    if (!token) { if (confirm('Login to set alerts?')) window.location.href='profile.html'; return; }
+    const threshold = prompt('Enter threshold price (ETB per quintal):');
+    if (!threshold || isNaN(threshold)) return;
+    try {
+      await fetchAPI('/alerts', { method: 'POST', body: JSON.stringify({ crop_id: cropId, market_id: marketId, grade, condition: 'below', threshold: parseFloat(threshold), delivery_method: { sms: true, push: false } }) });
+      alert('✅ Alert created!');
+    } catch(e) { alert('Failed: ' + e.message); }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('crop')) document.getElementById('cropSelect').value = params.get('crop');
+</script>
 </body>
 </html>
