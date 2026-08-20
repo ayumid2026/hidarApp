@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
-from datetime import timedelta
 from app import crud, schemas, auth
 from app.database import get_db
-from app.config import settings
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 
@@ -13,10 +11,6 @@ async def register_user(
     user: schemas.UserCreate,
     db: AsyncSession = Depends(get_db)
 ):
-    """
-    Register a new user.
-    """
-    # Check if user already exists
     existing_user = await crud.get_user_by_phone(db, user.phone_number)
     if existing_user:
         raise HTTPException(
@@ -30,10 +24,6 @@ async def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_db)
 ):
-    """
-    Login and receive an access token.
-    """
-    # OAuth2PasswordRequestForm uses "username" field for phone number
     user = await crud.get_user_by_phone(db, form_data.username)
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
