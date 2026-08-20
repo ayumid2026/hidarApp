@@ -1,15 +1,15 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr
 from datetime import datetime, date
 from typing import Optional, List
 from enum import Enum
 
-# --- User Schemas ---
 class UserRole(str, Enum):
     FARMER = "farmer"
     TRADER = "trader"
     COOPERATIVE = "cooperative"
     ADMIN = "admin"
 
+# User Schemas
 class UserBase(BaseModel):
     phone_number: str
     name: Optional[str] = None
@@ -36,10 +36,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-class TokenData(BaseModel):
-    user_id: Optional[int] = None
-
-# --- Price Schemas ---
+# Price Schemas
 class PriceBase(BaseModel):
     crop_id: int
     market_id: int
@@ -62,14 +59,14 @@ class PriceResponse(PriceBase):
     class Config:
         from_attributes = True
 
-# --- Alert Schemas ---
+# Alert Schemas
 class AlertBase(BaseModel):
     crop_id: int
     market_id: Optional[int] = None
     grade: str
-    condition: str  # 'above' or 'below'
+    condition: str
     threshold: float
-    delivery_method: dict  # {"sms": True, "push": False}
+    delivery_method: dict
 
 class AlertCreate(AlertBase):
     pass
@@ -86,7 +83,7 @@ class AlertResponse(AlertBase):
     class Config:
         from_attributes = True
 
-# --- Report Schemas ---
+# Report Schemas
 class PriceReportBase(BaseModel):
     crop_id: int
     market_id: int
