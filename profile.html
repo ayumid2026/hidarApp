@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hidar - Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f5f5; font-family: system-ui, sans-serif; padding-bottom: 80px; }
+    .header { background: #2E7D32; color: white; padding: 16px; border-radius: 0 0 20px 20px; }
+    .header h1 { font-size: 1.3rem; margin: 0; }
+    .back-link { color: white; text-decoration: none; font-size: 1.5rem; }
+    .avatar { width: 72px; height: 72px; border-radius: 50%; background: #C8E6C9; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto; }
+    .setting-item { background: white; padding: 14px 16px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e0e0e0; display: flex; justify-content: space-around; padding: 8px 0; z-index: 100; }
+    .bottom-nav a { color: #757575; text-decoration: none; font-size: 0.75rem; text-align: center; }
+    .bottom-nav a.active { color: #2E7D32; font-weight: bold; }
+    .bottom-nav span { display: block; font-size: 1.25rem; }
+    .toggle { width: 44px; height: 24px; background: #ccc; border-radius: 12px; position: relative; cursor: pointer; transition: 0.3s; }
+    .toggle.active { background: #2E7D32; }
+    .toggle .slider { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
+    .toggle.active .slider { left: 22px; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="container d-flex align-items-center">
+      <a href="index.html" class="back-link me-2">←</a>
+      <h1>👤 Profile</h1>
+    </div>
+  </div>
+
+  <div class="container mt-3">
+
+    <div class="text-center">
+      <div class="avatar">👨‍🌾</div>
+      <h5 class="mt-2">Almaz Bekele</h5>
+      <p class="text-muted small">Member since Jan 2026</p>
+      <span class="badge bg-secondary">Free</span>
+      <button class="btn btn-sm btn-warning ms-2" onclick="alert('Upgrade coming soon!')">Upgrade</button>
+    </div>
+
+    <hr>
+
+    <h6>Settings</h6>
+
+    <div class="setting-item">
+      <span>🌍 Language</span>
+      <span>Amharic <span class="text-muted">▼</span></span>
+    </div>
+
+    <div class="setting-item">
+      <span>📍 Preferred Markets</span>
+      <span>Adama, Shashemene <span class="text-muted">▼</span></span>
+    </div>
+
+    <div class="setting-item">
+      <span>🔔 SMS Alerts</span>
+      <div class="toggle active" onclick="this.classList.toggle('active')"><div class="slider"></div></div>
+    </div>
+
+    <div class="setting-item">
+      <span>📲 Web Push Notifications</span>
+      <div class="toggle active" onclick="this.classList.toggle('active')"><div class="slider"></div></div>
+    </div>
+
+    <div class="setting-item">
+      <span>📴 Offline Mode</span>
+      <div class="toggle" onclick="this.classList.toggle('active')"><div class="slider"></div></div>
+    </div>
+
+    <hr>
+
+    <h6>Account</h6>
+
+    <div class="setting-item">
+      <span>📞 Phone Number</span>
+      <span>+251 91X XXX XXX</span>
+    </div>
+
+    <div class="setting-item">
+      <span>📧 Email</span>
+      <span>almaz@example.com</span>
+    </div>
+
+    <div class="setting-item text-danger" onclick="alert('Logout confirmed')" style="cursor:pointer;">
+      <span>🚪 Logout</span>
+      <span>→</span>
+    </div>
+
+    <hr>
+
+    <div class="text-center small text-muted">
+      Version 0.1.0 MVP<br>
+      <a href="#" class="text-muted">Terms</a> • <a href="#" class="text-muted">Privacy</a> • <a href="#" class="text-muted">Support</a>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="check.html"><span>🔍</span>Check</a>
+    <a href="report.html"><span>📝</span>Report</a>
+    <a href="insights.html"><span>📊</span>Insights</a>
+    <a href="profile.html" class="active"><span>👤</span>Profile</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
